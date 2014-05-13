@@ -7,7 +7,7 @@ I am really excited to introduce this ProgressHUD for osx. When I started my fir
 
 Please let me know if you find this helpfull!
 
-![Screenshot](http://www.danmjacks.com/wp-content/uploads/2014/05/Screen-Shot-2014-05-13-at-11.28.37-AM.png)
+![Screenshot](http://www.danmjacks.com/wp-content/uploads/2014/05/Screen-Shot-2014-05-13-at-11.28.37-AM-e1400007552991.png)
 
 ##Whats included: 
   - DJProgressHUD: A class to show a popup view to the user displaying the current progress or an activity indicator.
