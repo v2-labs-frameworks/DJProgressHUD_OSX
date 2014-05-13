@@ -12,4 +12,4 @@ I am really excited to introduce this ProgressHUD for osx. When I started my fir
 
 ##Credit where credit is due:
   
-I modeled much of my code off of SVProgressHUD. Its a great project.
+I modeled much of my code off of [SVProgressHUD](https://github.com/samvermette/SVProgressHUD). Its a great project.
