@@ -38,7 +38,3 @@ Progress Indicator - Customizing
     [progress setRingColor:[NSColor whiteColor] backgroundRingColor:[NSColor darkGrayColor]];
     [self.view addSubview:progress];
     [progress showProgress: 0.33 ];
-
-##Credit where credit is due:
-  
-I modeled much of my code off of [SVProgressHUD](https://github.com/samvermette/SVProgressHUD). Its a great project.
