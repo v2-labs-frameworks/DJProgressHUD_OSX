@@ -1,4 +1,4 @@
-DJProgressHUD_osx
+DJProgressHUD
 =================
 
 Progress and Activity HUD for OSX.
