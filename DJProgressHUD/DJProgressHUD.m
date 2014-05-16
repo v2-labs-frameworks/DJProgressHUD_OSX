@@ -22,6 +22,9 @@ typedef void (^CompletionHander)(void);
     DJActivityIndicator* activityIndicator;
     DJProgressIndicator* progressIndicator;
     NSTextField* label;
+    
+    NSButton* backgroundMask;
+    NSView* MainHUD;
 }
 @end
 
@@ -68,10 +71,33 @@ typedef void (^CompletionHander)(void);
     [progressIndicator setHidden:TRUE];
     [activityIndicator startAnimation:nil];
     
-    if(![self displaying])
+    [self addMask];
+    [self performSelector:@selector(removeMask) withObject:nil afterDelay:3];
+    
+#warning WARNING
+    if(FALSE && ![self displaying])
         [self showViewAnimated];
     else
         [self replaceViewQuick];
+}
+
+- (void)addMask {
+    
+    [backgroundMask removeFromSuperview];
+    [backgroundMask setFrame:parentView.frame];
+    [backgroundMask setEnabled:TRUE];
+    if(!backgroundMask.wantsLayer) {
+        CALayer* layer = [CALayer layer];
+        [backgroundMask setLayer:layer];
+    }
+    [backgroundMask.layer setOpacity:0.0];
+    [parentView addSubview:backgroundMask positioned:NSWindowAbove relativeTo:self];
+}
+
+- (void)removeMask {
+    
+    [backgroundMask removeFromSuperview];
+//    [backgroundMask.animator.layer setOpacity:0.0];
 }
 
 - (void)showProgress:(CGFloat)progress withStatus:(NSString*)status FromView:(NSView*)view
@@ -97,7 +123,7 @@ typedef void (^CompletionHander)(void);
 -(void)replaceViewQuick
 {
     [self beginShowView];
-    [self.layer setOpacity:_pAlpha];
+    [MainHUD.layer setOpacity:_pAlpha];
 }
 
 - (void)beginShowView
@@ -105,8 +131,10 @@ typedef void (^CompletionHander)(void);
     [self updateLayout];
     
     if(!self.superview) [parentView addSubview:self];
+    [self.layer setFrame:parentView.frame];
+    [self addSubview:MainHUD];
     NSRect size = [self getCenterWithinRect:parentView.frame scale:1.0];
-    [self.layer setFrame:size];
+    [MainHUD.layer setFrame:size];
     
     _displaying = true;
     _activityCount++;
@@ -118,6 +146,7 @@ typedef void (^CompletionHander)(void);
 
 -(void)finishHideView
 {
+    [MainHUD removeFromSuperview];
     [self removeFromSuperview];
     parentView = nil;
     _displaying = false;
@@ -132,17 +161,17 @@ typedef void (^CompletionHander)(void);
         [parentView setWantsLayer:TRUE];
         [parentView setLayer:[CALayer layer]];
     }
-    if(![self wantsLayer])
+    if(![MainHUD wantsLayer])
     {
-        [self setWantsLayer:TRUE];
-        [self setLayer:[CALayer layer]];
+        [MainHUD setWantsLayer:TRUE];
+        [MainHUD setLayer:[CALayer layer]];
     }
     
     [self beginShowView];
-    self.layer.opacity = 0.0;
+    MainHUD.layer.opacity = 0.0;
     
     NSRect sizeBefore = [self getCenterWithinRect:parentView.frame scale:0.75];
-    [self.layer setFrame:sizeBefore];
+    [MainHUD.layer setFrame:sizeBefore];
     
     _animatingShow = true;
     
@@ -154,8 +183,8 @@ typedef void (^CompletionHander)(void);
         _animatingShow = false;
     }];
 
-    [self.layer setFrame:[self getCenterWithinRect:parentView.frame scale:1.0]];
-    [self.layer setOpacity:_pAlpha];
+    [MainHUD.layer setFrame:[self getCenterWithinRect:parentView.frame scale:1.0]];
+    [MainHUD.layer setOpacity:_pAlpha];
     [CATransaction commit];
 
     [self setNeedsDisplay:TRUE];
@@ -168,10 +197,10 @@ typedef void (^CompletionHander)(void);
         [parentView setWantsLayer:TRUE];
         [parentView setLayer:[CALayer layer]];
     }
-    if(![self wantsLayer])
+    if(![MainHUD wantsLayer])
     {
-        [self setWantsLayer:TRUE];
-        [self setLayer:[CALayer layer]];
+        [MainHUD setWantsLayer:TRUE];
+        [MainHUD setLayer:[CALayer layer]];
     }
     
     NSRect newSize = [self getCenterWithinRect:parentView.frame scale:0.75];
@@ -187,17 +216,17 @@ typedef void (^CompletionHander)(void);
     [CATransaction setValue:[NSNumber numberWithFloat:0.15f] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
         _animatingShow = false;
-        if(self.layer.opacity == 0.0)
+        if(MainHUD.layer.opacity == 0.0)
         {
             [self finishHideView];
             //[self updateLayout];
-            [self addSubview:progressIndicator];
+            [MainHUD addSubview:progressIndicator];
         }
     }];
     [activityIndicator.layer setOpacity:0.0];
     [label.layer setOpacity:0.0];
-    [self.layer setFrame:newSize];
-    [self.layer setOpacity:0.0];
+    [MainHUD.layer setFrame:newSize];
+    [MainHUD.layer setOpacity:0.0];
     [CATransaction commit];
 
     [self setNeedsDisplay:TRUE];
@@ -257,29 +286,38 @@ typedef void (^CompletionHander)(void);
     [activityIndicator setColor:[NSColor whiteColor]];
     
     pSize.width = popupWidth;
-    
     pSize.height = iY+iH+_pPadding+spaceOnTop;//+(_pPadding/2);
     
     [self setAutoresizesSubviews:YES];
+    [MainHUD setAutoresizesSubviews:YES];
     
     [self setNeedsDisplay:TRUE];
+    [MainHUD setNeedsDisplay:TRUE];
 }
 
 - (void)setBackground
 {
     CGColorRef bgcolor = CGColorCreateGenericRGB(0.05, 0.05, 0.05, _pAlpha);
-    if(![self wantsLayer])
+    if(![MainHUD wantsLayer])
     {
         CALayer* bgLayer = [CALayer layer];
         [bgLayer setBackgroundColor:bgcolor];
         [bgLayer setCornerRadius:15.0];
-        [self setWantsLayer:TRUE];
-        [self setLayer:bgLayer];
+        [MainHUD setWantsLayer:TRUE];
+        [MainHUD setLayer:bgLayer];
     }
     else {
-        [self.layer setBackgroundColor:bgcolor];
-        [self.layer setCornerRadius:15.0];
+        [MainHUD.layer setBackgroundColor:bgcolor];
+        [MainHUD.layer setCornerRadius:15.0];
     }
+    
+    if(![self layer]) {
+        CALayer* bgLayer = [CALayer layer];
+        [self setLayer:bgLayer];
+        [self setWantsLayer:TRUE];
+    }
+    [self.layer setBackgroundColor:CGColorCreateGenericRGB(0, 0, 0, 0.4)];
+
 }
 
 #pragma mark -
@@ -320,14 +358,18 @@ typedef void (^CompletionHander)(void);
 - (void)initializePopup
 {
     self.autoresizingMask = NSViewMaxXMargin | NSViewMaxYMargin | NSViewMinXMargin | NSViewMinYMargin;
+    MainHUD.autoresizingMask = NSViewMaxXMargin | NSViewMaxYMargin | NSViewMinXMargin | NSViewMinYMargin;
     
+    MainHUD = [[NSView alloc] init];
     activityIndicator = [[DJActivityIndicator alloc] init];
     progressIndicator = [[DJProgressIndicator alloc] init];
+    backgroundMask = [[NSButton alloc] init];
     label = [[NSTextField alloc] init];
     
-    [self addSubview:label];
-    [self addSubview:activityIndicator];
-    [self addSubview:progressIndicator];
+    [self addSubview:MainHUD];
+    [MainHUD addSubview:label];
+    [MainHUD addSubview:activityIndicator];
+    [MainHUD addSubview:progressIndicator];
     
     //----DEFAULT VALUES----
     

@@ -47,6 +47,8 @@
 #define pMaxWidth1 250
 #define pMaxHeight1 200
 
+#define backgroundAlpha 0.3
+
 //General Popup Values
 @property (nonatomic) CGVector pOffset;
 @property (nonatomic) CGFloat pAlpha;

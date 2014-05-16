@@ -163,8 +163,10 @@
     else {
         finColors[position] = foreColor;
     }
-    
+                
     [self setNeedsDisplay:YES];
+        
+
 }
 
 - (void)actuallyStartAnimation

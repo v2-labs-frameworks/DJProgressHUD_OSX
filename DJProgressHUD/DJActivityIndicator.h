@@ -10,7 +10,7 @@
 
 @interface DJActivityIndicator : NSView
 
-@property (nonatomic) BOOL isAnimating;
+@property BOOL isAnimating;
 
 - (void)setColor:(NSColor *)value;
 - (void)setBackgroundColor:(NSColor *)value;
