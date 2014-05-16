@@ -24,12 +24,14 @@
 
 @interface DJProgressHUD : NSView
 
++ (void)setBackgroundAlpha:(CGFloat)bgAlph disableActions:(BOOL)disActions;
+
 + (void)showStatus:(NSString*)status FromView:(NSView*)view;
 + (void)showProgress:(CGFloat)progress withStatus:(NSString*)status FromView:(NSView*)view;
 
 + (void)dismiss;
 
-+ (void)popActivity;
+//+ (void)popActivity;
 @property (nonatomic) BOOL keepActivityCount;
 
 @property (nonatomic, readonly) BOOL animatingDismiss;
@@ -47,7 +49,7 @@
 #define pMaxWidth1 250
 #define pMaxHeight1 200
 
-#define backgroundAlpha 0.3
+
 
 //General Popup Values
 @property (nonatomic) CGVector pOffset;

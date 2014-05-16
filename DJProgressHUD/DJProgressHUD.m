@@ -26,6 +26,10 @@ typedef void (^CompletionHander)(void);
     NSButton* backgroundMask;
     NSView* MainHUD;
 }
+
+@property CGFloat backgroundAlpha;
+@property BOOL actionsEnabled;
+
 @end
 
 @implementation DJProgressHUD
@@ -36,6 +40,15 @@ typedef void (^CompletionHander)(void);
 + (void)showStatus:(NSString*)status FromView:(NSView*)view
 {
     [[self instance] showStatus:status FromView:view];
+}
+
++ (void)setBackgroundAlpha:(CGFloat)bgAlph disableActions:(BOOL)disActions
+{
+    DJProgressHUD* theHUD = [self instance];
+    theHUD.backgroundAlpha = bgAlph;
+
+    [theHUD setBackground];
+    
 }
 
 + (void)showProgress:(CGFloat)progress withStatus:(NSString*)status FromView:(NSView*)view
@@ -71,9 +84,6 @@ typedef void (^CompletionHander)(void);
     [progressIndicator setHidden:TRUE];
     [activityIndicator startAnimation:nil];
     
-    [self addMask];
-    [self performSelector:@selector(removeMask) withObject:nil afterDelay:3];
-    
 #warning WARNING
     if(FALSE && ![self displaying])
         [self showViewAnimated];
@@ -85,7 +95,7 @@ typedef void (^CompletionHander)(void);
     
     [backgroundMask removeFromSuperview];
     [backgroundMask setFrame:parentView.frame];
-    [backgroundMask setEnabled:TRUE];
+    [backgroundMask setEnabled:!_actionsEnabled];
     if(!backgroundMask.wantsLayer) {
         CALayer* layer = [CALayer layer];
         [backgroundMask setLayer:layer];
@@ -139,6 +149,8 @@ typedef void (^CompletionHander)(void);
     _displaying = true;
     _activityCount++;
     
+    [self addMask];
+    
     [activityIndicator.layer setOpacity:1.0];
     [progressIndicator.layer setOpacity:1.0];
     [label.layer setOpacity:1.0];
@@ -150,6 +162,8 @@ typedef void (^CompletionHander)(void);
     [self removeFromSuperview];
     parentView = nil;
     _displaying = false;
+    
+    [self removeMask];
 
     [activityIndicator stopAnimation:nil];
 }
@@ -316,8 +330,10 @@ typedef void (^CompletionHander)(void);
         [self setLayer:bgLayer];
         [self setWantsLayer:TRUE];
     }
-    [self.layer setBackgroundColor:CGColorCreateGenericRGB(0, 0, 0, 0.4)];
 
+    [self.layer setBackgroundColor:CGColorCreateGenericRGB(0, 0, 0, _backgroundAlpha)];
+
+    [self setNeedsDisplay:TRUE];
 }
 
 #pragma mark -
@@ -372,6 +388,9 @@ typedef void (^CompletionHander)(void);
     [MainHUD addSubview:progressIndicator];
     
     //----DEFAULT VALUES----
+    
+    _backgroundAlpha = 0.4;
+    _actionsEnabled = FALSE;
     
     _pOffset = CGVectorMake(0, 0);
     _pAlpha = 0.9;
