@@ -9,6 +9,12 @@ Please let me know if you find this helpfull!
 
 ![Screenshot](http://www.danmjacks.com/wp-content/uploads/2014/05/Screen-Shot-2014-05-13-at-11.28.37-AM-e1400007552991.png)
 
+##Setup
+  1. Add DJProgressHUD to your application directory
+  2. Ensure ARC is enabled on the project
+  3. Import the file you want to use
+  4. Use the samples below to display
+
 ##Whats included: 
   - DJProgressHUD: A class to show a popup view to the user displaying the current progress or an activity indicator.
   - DJActivityIndicator: A customizable activity indicator. The mac's version, NSProgressIndicator, just doesn't cut it.
