@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>BD35A547-213C-4803-A3A3-9130062E25D1</string>
+	<string>1EC42D2D-2365-4689-8791-79DBC8A90388</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Playground</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>484476BD-3192-477B-9A25-A9D46A3641D2</key>
-		<string>https://github.com/danielmj/DJProgressHUD_osx.git</string>
+		<key>F07925B3-40D3-4B4A-9AB5-FD6BD28584EA</key>
+		<string>https://github.com/danielmj/DJProgressHUD_OSX.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Playground/Playground.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>484476BD-3192-477B-9A25-A9D46A3641D2</key>
+		<key>F07925B3-40D3-4B4A-9AB5-FD6BD28584EA</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/danielmj/DJProgressHUD_osx.git</string>
+	<string>https://github.com/danielmj/DJProgressHUD_OSX.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>484476BD-3192-477B-9A25-A9D46A3641D2</string>
+	<string>F07925B3-40D3-4B4A-9AB5-FD6BD28584EA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>484476BD-3192-477B-9A25-A9D46A3641D2</string>
+			<string>F07925B3-40D3-4B4A-9AB5-FD6BD28584EA</string>
 			<key>IDESourceControlWCCName</key>
 			<string>DJProgressHUD_osx</string>
 		</dict>

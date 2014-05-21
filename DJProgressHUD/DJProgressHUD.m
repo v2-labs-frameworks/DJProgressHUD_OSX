@@ -83,9 +83,8 @@ typedef void (^CompletionHander)(void);
     [activityIndicator setHidden:FALSE];
     [progressIndicator setHidden:TRUE];
     [activityIndicator startAnimation:nil];
-    
-#warning WARNING
-    if(FALSE && ![self displaying])
+
+    if(![self displaying])
         [self showViewAnimated];
     else
         [self replaceViewQuick];
