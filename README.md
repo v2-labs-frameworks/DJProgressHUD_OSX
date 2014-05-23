@@ -12,8 +12,8 @@ Please let me know if you find this helpfull!
 ##Setup
   1. Add DJProgressHUD to your application directory
   2. Ensure ARC is enabled on the project
-  3. Import the file you want to use
-  4. Use the samples below to display
+  3. Import the control you want to use
+  4. Refer to the samples below for possible display options
 
 ##Whats included: 
   - DJProgressHUD: A class to show a popup view to the user displaying the current progress or an activity indicator.
